@@ -1,19 +1,19 @@
 import 'dart:convert';
 
-class RegisterRequestModel {
+class LoginRequestModel {
     final String? username;
     final String? password;
 
-    RegisterRequestModel({
+    LoginRequestModel({
         this.username,
         this.password,
     });
 
-    factory RegisterRequestModel.fromJson(String str) => RegisterRequestModel.fromMap(json.decode(str));
+    factory LoginRequestModel.fromJson(String str) => LoginRequestModel.fromMap(json.decode(str));
 
     String toJson() => json.encode(toMap());
 
-    factory RegisterRequestModel.fromMap(Map<String, dynamic> json) => RegisterRequestModel(
+    factory LoginRequestModel.fromMap(Map<String, dynamic> json) => LoginRequestModel(
         username: json["username"],
         password: json["password"],
     );
