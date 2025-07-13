@@ -10,3 +10,5 @@ class CreateOrder extends OrdersEvent {
 }
 
 class GetOrderHistory extends OrdersEvent {}
+
+class LoadCustomerOrders extends OrdersEvent {}

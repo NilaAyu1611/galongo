@@ -13,11 +13,16 @@ class OrdersSuccess extends OrdersState {
   OrdersSuccess(this.orderList);
 }
 
-class OrderCreatedSuccess extends OrdersState {
-  final OrderResponseModel order;
-
-  OrderCreatedSuccess(this.order);
+class OrdersLoadSuccess extends OrdersState {
+  final List<Data> orders;
+  OrdersLoadSuccess(this.orders);
 }
+
+// class OrderCreatedSuccess extends OrdersState {
+//   final OrderResponseModel order;
+
+//   OrderCreatedSuccess(this.order);
+// }
 
 class OrdersFailure extends OrdersState {
   final String message;
