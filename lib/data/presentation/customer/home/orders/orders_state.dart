@@ -1,0 +1,26 @@
+part of 'orders_bloc.dart';
+
+@immutable
+sealed class OrdersState {}
+
+final class OrdersInitial extends OrdersState {}
+
+class OrdersLoading extends OrdersState {}
+
+class OrdersSuccess extends OrdersState {
+  final List<Data> orderList;
+
+  OrdersSuccess(this.orderList);
+}
+
+class OrderCreatedSuccess extends OrdersState {
+  final OrderResponseModel order;
+
+  OrderCreatedSuccess(this.order);
+}
+
+class OrdersFailure extends OrdersState {
+  final String message;
+
+  OrdersFailure(this.message);
+}
