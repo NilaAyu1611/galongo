@@ -5,6 +5,7 @@ import 'package:galongo/data/presentation/admin/stock_screen.dart';
 import 'package:galongo/data/presentation/auth/login_screen.dart';
 import 'package:galongo/data/presentation/auth/register_screen.dart';
 import 'package:galongo/data/presentation/admin/admin_home_screen.dart';
+import 'package:galongo/data/presentation/customer/customer_transaction_screen.dart';
 import 'package:galongo/data/presentation/customer/home/customer_home_screen.dart';
 import 'package:galongo/data/presentation/admin/dashboard/dashboard_bloc.dart';
 import 'package:galongo/data/repository/dashboard_repository.dart';
@@ -27,5 +28,7 @@ class AppRoutes {
       ),
 
     '/customer-home': (context) => const CustomerHomeScreen(),
+    '/customer/transactions': (context) => const CustomerTransactionScreen(),
+
   };
 }

@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:galongo/data/repository/transaction_repository.dart';
 import 'package:meta/meta.dart';
+
 import 'package:galongo/data/model/request/customer/transaction_request_model.dart';
 import 'package:galongo/data/model/response/customer/transaction_response_model.dart';
-import 'package:galongo/data/repositories/transaction_repository.dart';
+import 'package:galongo/data/repository/transaction_repository.dart';
 
 part 'transaction_event.dart';
 part 'transaction_state.dart';
