@@ -17,27 +17,38 @@ class AuthRepository {
 
   // LOGIN
   Future<Either<String, AuthResponseModel>> login(LoginRequestModel requestModel) async {
-    try {
-      final http.Response response = await _httpClient.post('login', requestModel.toMap());
-      final jsonResponse = json.decode(response.body);
+  try {
+    final http.Response response = await _httpClient.post('login', requestModel.toMap());
+    final jsonResponse = json.decode(response.body);
 
-      if (response.statusCode == 200) {
-        final result = AuthResponseModel.fromMap(jsonResponse);
+    if (response.statusCode == 200) {
+      final result = AuthResponseModel.fromMap(jsonResponse);
 
-        final token = jsonResponse['token'];
+      // Ambil token dari response
+      final token = result.data?.token;
+
+      if (token != null) {
         await _storage.write(key: 'authToken', value: token);
-        log(" Login successful: $token");
-
-        return Right(result);
+        log("🔐 Token tersimpan: $token");
       } else {
-        log(" Login failed: ${jsonResponse['message']}");
-        return Left(jsonResponse['message'] ?? 'Login failed');
+        log("❌ Token tidak ditemukan di response!");
       }
-    } catch (e) {
-      log(" Error during login: $e");
-      return Left('Error occurred during login: $e');
+
+      // Debug: cek token tersimpan
+      final savedToken = await _storage.read(key: 'authToken');
+      log("🧪 Token saat request dashboard: $savedToken");
+
+      return Right(result);
+    } else {
+      log("❌ Login gagal: ${jsonResponse['message']}");
+      return Left(jsonResponse['message'] ?? 'Login failed');
     }
+  } catch (e) {
+    log("❌ Error selama login: $e");
+    return Left('Terjadi error saat login: $e');
   }
+}
+
 
   // REGISTER
   Future<Either<String, AuthResponseModel>> register(RegisterRequestModel requestModel) async {

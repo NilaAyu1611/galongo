@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:galongo/config/routes.dart';
+import 'package:galongo/data/presentation/admin/dashboard/dashboard_bloc.dart';
 import 'package:galongo/data/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:galongo/data/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:galongo/data/presentation/auth/login_screen.dart';
 import 'package:galongo/data/repository/auth_repository.dart';
+import 'package:galongo/data/repository/dashboard_repository.dart';
 import 'package:galongo/services/service_http_client.dart';
 
 void main() {
@@ -19,21 +22,23 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => 
-              LoginBloc(authRepository: AuthRepository(ServiceHttpClient())),
+          create: (_) => LoginBloc(authRepository: AuthRepository(ServiceHttpClient())),
         ),
         BlocProvider(
-          create: (context) => 
-              RegisterBloc(authRepository: AuthRepository(ServiceHttpClient())),
-        ),        
+          create: (_) => RegisterBloc(authRepository: AuthRepository(ServiceHttpClient())),
+        ),
+        BlocProvider(
+          create: (_) => DashboardBloc(dashboardRepository: DashboardRepository(ServiceHttpClient())),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'Galongo App',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        home: const LoginScreen(),
+        initialRoute: '/login',
+        routes: AppRoutes.routes,
       ),
     );  
       
