@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:galongo/config/routes.dart';
 import 'package:galongo/data/presentation/admin/dashboard/dashboard_bloc.dart';
+import 'package:galongo/data/presentation/admin/stock/stock_bloc.dart';
 import 'package:galongo/data/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:galongo/data/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:galongo/data/presentation/auth/login_screen.dart';
 import 'package:galongo/data/repository/auth_repository.dart';
 import 'package:galongo/data/repository/dashboard_repository.dart';
+import 'package:galongo/data/repository/stock_repository.dart';
 import 'package:galongo/services/service_http_client.dart';
 
 void main() {
@@ -29,6 +31,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => DashboardBloc(dashboardRepository: DashboardRepository(ServiceHttpClient())),
+        ),
+        BlocProvider(
+          create: (_) => StockBloc(stockRepository: StockRepository(ServiceHttpClient())),
         ),
       ],
       child: MaterialApp(

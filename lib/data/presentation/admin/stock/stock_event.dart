@@ -1,4 +1,13 @@
 part of 'stock_bloc.dart';
 
-@immutable
+
 sealed class StockEvent {}
+
+
+class LoadAllStock extends StockEvent {}
+
+class AddStock extends StockEvent {
+  final StockRequestModel request;
+
+  AddStock({required this.request});
+}
