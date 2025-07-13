@@ -3,24 +3,23 @@ part of 'stock_bloc.dart';
 
 sealed class StockState {}
 
-final class StockInitial extends StockState {}
+class StockInitial extends StockState {}
 
+class StockLoading extends StockState {}
 
-final class StockLoading extends StockState {}
-
-final class StockLoadSuccess extends StockState {
-  final List<Data> stockList;
+class StockLoadSuccess extends StockState {
+  final List<StockData> stockList;
 
   StockLoadSuccess({required this.stockList});
 }
 
-final class StockAddSuccess extends StockState {
+class StockAddSuccess extends StockState {
   final String message;
 
   StockAddSuccess({required this.message});
 }
 
-final class StockFailure extends StockState {
+class StockFailure extends StockState {
   final String message;
 
   StockFailure({required this.message});

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:galongo/core/constants/colors.dart';
 import 'package:galongo/data/model/request/admin/stock_request_model.dart';
+import 'package:galongo/data/model/response/stock_list_response_model.dart';
 import 'package:galongo/data/presentation/admin/stock/stock_bloc.dart';
 
 class StockScreen extends StatefulWidget {
@@ -43,16 +44,17 @@ class _StockScreenState extends State<StockScreen> {
     }
 
     context.read<StockBloc>().add(
-          AddStock(
-            StockRequestModel(
-              quantity: quantity,
-              price: price,
-              image: selectedImage,
-            ),
-          ),
-        );
-  }
+      AddStock(
+        request: StockRequestModel(
+          quantity: quantity,
+          price: price,
+          image: selectedImage,
+        ),
+      ),
+    );
 
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,7 +138,6 @@ class _StockScreenState extends State<StockScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                // --- LIST STOCK ---
                 const Text("Daftar Stok", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 10),
                 if (state is StockLoading)
@@ -149,7 +150,6 @@ class _StockScreenState extends State<StockScreen> {
                     itemBuilder: (context, index) {
                       final stock = state.stockList[index];
                       final imageName = stock.image ?? 'placeholder.png';
-
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 8),
                         child: ListTile(
@@ -163,7 +163,6 @@ class _StockScreenState extends State<StockScreen> {
                           ),
                           title: Text("Quantity: ${stock.quantity}"),
                           subtitle: Text("Price: Rp ${stock.price}"),
-                          trailing: Text("ID: ${stock.id}"),
                         ),
                       );
                     },

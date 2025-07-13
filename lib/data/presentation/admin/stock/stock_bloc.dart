@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:galongo/data/model/response/stock_list_response_model.dart';
 import 'package:meta/meta.dart';
 import 'package:galongo/data/model/request/admin/stock_request_model.dart';
 import 'package:galongo/data/model/response/stock_response_model.dart';
