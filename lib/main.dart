@@ -6,9 +6,11 @@ import 'package:galongo/data/presentation/admin/stock/stock_bloc.dart';
 import 'package:galongo/data/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:galongo/data/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:galongo/data/presentation/auth/login_screen.dart';
+import 'package:galongo/data/presentation/customer/home/review/review_bloc.dart';
 import 'package:galongo/data/presentation/customer/home/transactions/transaction_bloc.dart';
 import 'package:galongo/data/repository/auth_repository.dart';
 import 'package:galongo/data/repository/dashboard_repository.dart';
+import 'package:galongo/data/repository/review_repository.dart';
 import 'package:galongo/data/repository/stock_repository.dart';
 import 'package:galongo/data/repository/transaction_repository.dart';
 import 'package:galongo/services/service_http_client.dart';
@@ -40,6 +42,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => TransactionBloc(TransactionRepository(ServiceHttpClient())),
         ),
+        BlocProvider(
+          create: (_) => ReviewBloc(ReviewRepository(ServiceHttpClient())),
+        ),
+
 
       ],
       child: MaterialApp(
