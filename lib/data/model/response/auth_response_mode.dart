@@ -34,7 +34,7 @@ class Data {
     final String? username;
     final String? email;
     final String? phone;
-    final int? roleId;
+    final String? role;
 
     Data({
         this.id,
@@ -42,7 +42,7 @@ class Data {
         this.username,
         this.email,
         this.phone,
-        this.roleId,
+        this.role,
     });
 
     factory Data.fromJson(String str) => Data.fromMap(json.decode(str));
@@ -55,7 +55,7 @@ class Data {
         username: json["username"],
         email: json["email"],
         phone: json["phone"],
-        roleId: json["role_id"],
+        role: json["role"],
     );
 
     Map<String, dynamic> toMap() => {
@@ -64,6 +64,6 @@ class Data {
         "username": username,
         "email": email,
         "phone": phone,
-        "role_id": roleId,
+        "role": role,
     };
 }
