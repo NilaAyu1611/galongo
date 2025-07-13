@@ -14,7 +14,7 @@ class StockRepository {
       StockRequestModel request) async {
     try {
       final response = await _httpClient.postWithToken(
-        "admin/stock",
+        "admin/stocks",
         request.toMap(),
       );
 
@@ -32,7 +32,7 @@ class StockRepository {
 
   Future<Either<String, List<StockData>>> getAllStock() async {
     try {
-      final response = await _httpClient.get("admin/stock");
+      final response = await _httpClient.get("admin/stocks");
 
       final jsonResponse = json.decode(response.body);
 

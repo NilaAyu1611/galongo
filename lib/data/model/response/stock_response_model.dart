@@ -25,7 +25,7 @@ class StockResponseModel {
 class SingleStockData {
   final int? id;
   final int? quantity;
-  final int? price;
+  final int? price; 
   final String? image;
 
   SingleStockData({
@@ -38,7 +38,7 @@ class SingleStockData {
   factory SingleStockData.fromMap(Map<String, dynamic> json) => SingleStockData(
         id: json["id"],
         quantity: json["quantity"],
-        price: int.tryParse(json["price"].toString()),
+        price: double.tryParse(json["price"].toString())?.toInt(),
         image: json["image"],
       );
 }

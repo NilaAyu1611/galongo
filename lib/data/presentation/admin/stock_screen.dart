@@ -118,6 +118,7 @@ class _StockScreenState extends State<StockScreen> {
                                   Image.asset('assets/images/$img', width: 30, height: 30),
                                   const SizedBox(width: 10),
                                   Text(img),
+                                  
                                 ],
                               ),
                             );

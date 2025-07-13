@@ -41,7 +41,7 @@ class StockData {
   factory StockData.fromMap(Map<String, dynamic> json) => StockData(
         id: json["id"],
         quantity: json["quantity"],
-        price: int.tryParse(json["price"].toString()),
+        price: double.tryParse(json["price"].toString())?.toInt(),
         image: json["image"],
       );
 }
