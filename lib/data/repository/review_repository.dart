@@ -35,4 +35,19 @@ class ReviewRepository {
       return Left("Error submitting review: $e");
     }
   }
+
+  Future<Either<String, List<dynamic>>> getAllReviews() async {
+  try {
+    final response = await _httpClient.get("admin/review");
+    final jsonResponse = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      return Right(jsonResponse["data"] ?? []);
+    } else {
+      return Left(jsonResponse["message"] ?? "Failed to load reviews");
+    }
+  } catch (e) {
+    return Left("Error loading reviews: $e");
+  }
+}
 }

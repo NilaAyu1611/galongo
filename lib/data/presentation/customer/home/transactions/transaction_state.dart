@@ -1,28 +1,22 @@
-part of 'transaction_state.dart';
+part of 'transaction_bloc.dart';
 
+abstract class TransactionState {}
 
-import 'package:galongo/data/model/response/customer/transaction_response_model.dart';
+class TransactionInitial extends TransactionState {}
 
-sealed class TransactionState {}
+class TransactionLoading extends TransactionState {}
 
-final class TransactionInitial extends TransactionState {}
-
-final class TransactionLoading extends TransactionState {}
-
-final class TransactionSuccess extends TransactionState {
-  final List<String> transactions;
-
-  TransactionSuccess(this.transactions);
+class TransactionLoadSuccess extends TransactionState {
+  final List<TransactionData> transactions;
+  TransactionLoadSuccess(this.transactions);
 }
 
-final class TransactionFailure extends TransactionState {
+class TransactionSummarySuccess extends TransactionState {
+  final TransactionSummary summary;
+  TransactionSummarySuccess(this.summary);
+}
+
+class TransactionFailure extends TransactionState {
   final String message;
-
   TransactionFailure(this.message);
-}
-
-final class TransactionCreated extends TransactionState {
-  final TransactionResponseModel response;
-
-  TransactionCreated(this.response);
 }

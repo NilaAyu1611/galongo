@@ -1,22 +1,22 @@
 part of 'promo_bloc.dart';
 
-@immutable
-sealed class PromoState {}
+abstract class PromoState {}
 
-final class PromoInitial extends PromoState {}
+class PromoInitial extends PromoState {}
+
 class PromoLoading extends PromoState {}
 
-class PromoSuccess extends PromoState {
+class PromoLoadSuccess extends PromoState {
+  final List<dynamic> promos;
+  PromoLoadSuccess(this.promos);
+}
+
+class PromoOperationSuccess extends PromoState {
   final String message;
-  PromoSuccess(this.message);
+  PromoOperationSuccess(this.message);
 }
 
 class PromoFailure extends PromoState {
-  final String error;
-  PromoFailure(this.error);
-}
-
-class PromoListLoaded extends PromoState {
-  final List<dynamic> promos;
-  PromoListLoaded(this.promos);
+  final String message;
+  PromoFailure(this.message);
 }

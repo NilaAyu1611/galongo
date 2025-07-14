@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:galongo/data/model/request/customer/transaction_request_model.dart';
 import 'package:galongo/data/model/response/customer/transaction_response_model.dart';
+import 'package:galongo/data/model/response/transaction_summary_respon_mode.dart';
 import 'package:galongo/services/service_http_client.dart';
 import 'package:http/http.dart' as http;
 
@@ -52,4 +53,37 @@ class TransactionRepository {
       return Left("Terjadi kesalahan saat mengambil transaksi: $e");
     }
   }
+
+  //===================Admin======================
+  
+  Future<Either<String, List<TransactionData>>> getAdminTransactions() async {
+    try {
+      final res = await _httpClient.get("admin/transactions");
+      final body = json.decode(res.body);
+      if (res.statusCode == 200) {
+        final List<TransactionData> transactions =
+            (body['data'] as List).map((e) => TransactionData.fromMap(e)).toList();
+        return Right(transactions);
+      } else {
+        return Left(body['message'] ?? 'Gagal mengambil data');
+      }
+    } catch (e) {
+      return Left("Error: $e");
+    }
+  }
+
+  Future<Either<String, TransactionSummary>> getAdminTransactionSummary() async {
+    try {
+      final res = await _httpClient.get("admin/transactions/summary");
+      final body = json.decode(res.body);
+      if (res.statusCode == 200) {
+        return Right(TransactionSummary.fromMap(body['data']));
+      } else {
+        return Left(body['message'] ?? 'Gagal mengambil ringkasan');
+      }
+    } catch (e) {
+      return Left("Error: $e");
+    }
+  }
+
 }

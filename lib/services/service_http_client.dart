@@ -89,4 +89,26 @@ class ServiceHttpClient {
       throw Exception("DELETE request failed: $e");
     }
   }
+
+    // PUT dengan token
+  Future<http.Response> putWithToken(String endPoint, Map<String, dynamic> body) async {
+    final token = await _storage.read(key: "authToken");
+    final url = Uri.parse("$baseUrl$endPoint");
+
+    try {
+      final response = await http.put(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(body),
+      );
+      return response;
+    } catch (e) {
+      throw Exception("PUT with token failed: $e");
+    }
+  }
+
 }

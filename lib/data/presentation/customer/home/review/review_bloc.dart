@@ -12,11 +12,20 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
   ReviewBloc(this.repository) : super(ReviewInitial()) {
     on<SubmitReview>((event, emit) async {
       emit(ReviewLoading());
-
-      final result = await repository.submitReview(event.review);
+      final result = await repository.submitReview(event.request);
       result.fold(
-        (error) => emit(ReviewFailure(error)),
-        (data) => emit(ReviewSuccess(data.message ?? 'Berhasil')),
+        (l) => emit(ReviewFailure(l)),
+        (r) => emit(ReviewSubmitSuccess(r.message ?? "Review submitted")),
+      );
+    });
+
+    on<LoadReviews>((event, emit) async {
+      emit(ReviewLoading());
+      // NOTE: This requires repository.getAllReviews() to be implemented
+      final result = await repository.getAllReviews();
+      result.fold(
+        (l) => emit(ReviewFailure(l)),
+        (r) => emit(ReviewLoadSuccess(r)),
       );
     });
   }

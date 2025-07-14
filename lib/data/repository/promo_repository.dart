@@ -55,4 +55,39 @@ class PromoRepository {
       return Left("Error fetching promo: $e");
     }
   }
+
+  // UPDATE: Edit promo berdasarkan ID
+  Future<Either<String, PromoResponseModel>> updatePromo(int id, PromoRequestModel request) async {
+    try {
+      final response = await _httpClient.putWithToken("admin/promo/$id", request.toMap());
+      final jsonResponse = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        final result = PromoResponseModel.fromMap(jsonResponse);
+        log("✅ Promo diupdate: ${result.message}");
+        return Right(result);
+      } else {
+        return Left(jsonResponse["message"] ?? "Gagal memperbarui promo");
+      }
+    } catch (e) {
+      return Left("❌ Error saat memperbarui promo: $e");
+    }
+  }
+
+  // DELETE: Hapus promo berdasarkan ID
+  Future<Either<String, String>> deletePromo(int id) async {
+    try {
+      final response = await _httpClient.delete("admin/promo/$id");
+      final jsonResponse = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        return Right(jsonResponse['message'] ?? "Promo berhasil dihapus");
+      } else {
+        return Left(jsonResponse["message"] ?? "Gagal menghapus promo");
+      }
+    } catch (e) {
+      return Left("❌ Error saat menghapus promo: $e");
+    }
+  }
+
 }

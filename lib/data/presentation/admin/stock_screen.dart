@@ -52,9 +52,113 @@ class _StockScreenState extends State<StockScreen> {
         ),
       ),
     );
-
-
   }
+
+  void _showEditDialog(StockData stock) {
+    final TextEditingController editQuantityController =
+        TextEditingController(text: stock.quantity.toString());
+    final TextEditingController editPriceController =
+        TextEditingController(text: stock.price.toString());
+    String imageEdit = stock.image ?? imageOptions.first;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Edit Stok'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: editQuantityController,
+                  decoration: const InputDecoration(labelText: 'Quantity'),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: editPriceController,
+                  decoration: const InputDecoration(labelText: 'Price'),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 10),
+                DropdownButtonFormField<String>(
+                  value: imageEdit,
+                  decoration: const InputDecoration(labelText: 'Gambar'),
+                  items: imageOptions.map((img) {
+                    return DropdownMenuItem<String>(
+                      value: img,
+                      child: Row(
+                        children: [
+                          Image.asset('assets/images/$img', width: 30, height: 30),
+                          const SizedBox(width: 10),
+                          Text(img),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (val) {
+                    imageEdit = val!;
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Batal'),
+              onPressed: () => Navigator.pop(context),
+            ),
+            ElevatedButton(
+              child: const Text('Simpan'),
+              onPressed: () {
+                final qty = int.tryParse(editQuantityController.text);
+                final price = int.tryParse(editPriceController.text);
+                if (qty != null && price != null) {
+                  context.read<StockBloc>().add(UpdateStock(
+                        id: stock.id!,
+                        request: StockRequestModel(
+                          quantity: qty,
+                          price: price,
+                          image: imageEdit,
+                        ),
+                      ));
+                  Navigator.pop(context);
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _confirmDelete(int stockId) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Konfirmasi Hapus"),
+          content: const Text("Apakah Anda yakin ingin menghapus stok ini?"),
+          actions: [
+            TextButton(
+              child: const Text("Batal"),
+              onPressed: () => Navigator.pop(context),
+            ),
+            ElevatedButton(
+              child: const Text("Hapus"),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () {
+                context.read<StockBloc>().add(DeleteStock(id: stockId));
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,9 +168,11 @@ class _StockScreenState extends State<StockScreen> {
       ),
       body: BlocConsumer<StockBloc, StockState>(
         listener: (context, state) {
-          if (state is StockAddSuccess) {
+          if (state is StockAddSuccess ||
+              state is UpdateStock ||
+              state is DeleteStock) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
+              SnackBar(content: Text((state as dynamic).message)),
             );
             context.read<StockBloc>().add(LoadAllStock());
             quantityController.clear();
@@ -118,7 +224,6 @@ class _StockScreenState extends State<StockScreen> {
                                   Image.asset('assets/images/$img', width: 30, height: 30),
                                   const SizedBox(width: 10),
                                   Text(img),
-                                  
                                 ],
                               ),
                             );
@@ -164,6 +269,19 @@ class _StockScreenState extends State<StockScreen> {
                           ),
                           title: Text("Quantity: ${stock.quantity}"),
                           subtitle: Text("Price: Rp ${stock.price}"),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.edit, color: Colors.orange),
+                                onPressed: () => _showEditDialog(stock),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete, color: Colors.red),
+                                onPressed: () => _confirmDelete(stock.id!),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },

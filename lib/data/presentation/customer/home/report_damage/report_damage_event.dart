@@ -1,16 +1,11 @@
 part of 'report_damage_bloc.dart';
 
 @immutable
-sealed class ReportDamageEvent {}
+abstract class ReportDamageEvent {}
 
 class SubmitDamageReport extends ReportDamageEvent {
-  final int orderId;
-  final String description;
-  final String photoBase64;
-
-  SubmitDamageReport({
-    required this.orderId,
-    required this.description,
-    required this.photoBase64,
-  });
+  final ReportDamageRequestModel request;
+  SubmitDamageReport(this.request);
 }
+
+class LoadDamageReports extends ReportDamageEvent {}

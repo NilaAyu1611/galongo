@@ -4,17 +4,17 @@ import 'package:galongo/core/constants/colors.dart';
 import 'package:galongo/data/model/response/customer/order_response_model.dart';
 import 'package:galongo/data/presentation/customer/home/orders/orders_bloc.dart';
 
-class OrderCustomerScreen extends StatelessWidget {
-  const OrderCustomerScreen({super.key});
+class OrderAdminScreen extends StatelessWidget {
+  const OrderAdminScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Muat riwayat pesanan customer
-    context.read<OrdersBloc>().add(GetOrderHistory());
+    // Muat semua pesanan customer untuk admin
+    context.read<OrdersBloc>().add(LoadAllCustomerOrders());
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Pesanan Saya"),
+        title: const Text("Daftar Pesanan Pelanggan"),
         backgroundColor: AppColors.primary,
       ),
       body: BlocBuilder<OrdersBloc, OrdersState>(
@@ -32,6 +32,8 @@ class OrderCustomerScreen extends StatelessWidget {
               itemCount: orders.length,
               itemBuilder: (context, index) {
                 final order = orders[index];
+                final customerName = order.customer?.user?.name ?? 'Tidak diketahui';
+
                 return Card(
                   elevation: 2,
                   margin: const EdgeInsets.only(bottom: 12),
@@ -39,16 +41,20 @@ class OrderCustomerScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: AppColors.primary.withOpacity(0.2),
+                      child: Text(customerName.substring(0, 1).toUpperCase()),
+                    ),
                     title: Text("Pesanan #${order.id} - ${order.status}"),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 6),
+                        Text("Nama Customer: $customerName"),
                         Text("Jumlah: ${order.quantity} galon"),
                         Text("Total: Rp ${order.totalPrice}"),
                       ],
                     ),
-                    trailing: const Icon(Icons.local_shipping, color: AppColors.primary),
+                    trailing: const Icon(Icons.receipt_long, color: AppColors.primary),
                   ),
                 );
               },

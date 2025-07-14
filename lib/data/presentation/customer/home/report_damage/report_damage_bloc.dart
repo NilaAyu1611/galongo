@@ -12,18 +12,19 @@ class ReportDamageBloc extends Bloc<ReportDamageEvent, ReportDamageState> {
   ReportDamageBloc(this.repository) : super(ReportDamageInitial()) {
     on<SubmitDamageReport>((event, emit) async {
       emit(ReportDamageLoading());
-
-      final request = ReportDamageRequestModel(
-        orderId: event.orderId,
-        description: event.description,
-        photo: event.photoBase64,
-      );
-
-      final result = await repository.reportDamage(request);
-
+      final result = await repository.reportDamage(event.request);
       result.fold(
-        (error) => emit(ReportDamageFailure(error)),
-        (success) => emit(ReportDamageSuccess(success.message ?? "Berhasil")),
+        (l) => emit(ReportDamageFailure(l)),
+        (r) => emit(ReportDamageSubmitSuccess(r.message ?? "Laporan berhasil dikirim")),
+      );
+    });
+
+    on<LoadDamageReports>((event, emit) async {
+      emit(ReportDamageLoading());
+      final result = await repository.getAllDamageReports();
+      result.fold(
+        (l) => emit(ReportDamageFailure(l)),
+        (r) => emit(ReportDamageLoadSuccess(r)),
       );
     });
   }

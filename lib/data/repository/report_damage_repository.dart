@@ -33,4 +33,20 @@ class ReportDamageRepository {
       return Left("Error reporting damage: $e");
     }
   }
+
+  Future<Either<String, List<dynamic>>> getAllDamageReports() async {
+  try {
+    final response = await _httpClient.get("admin/damage-reports");
+    final jsonResponse = json.decode(response.body);
+
+    if (response.statusCode == 200) {
+      return Right(jsonResponse["data"] ?? []);
+    } else {
+      return Left(jsonResponse["message"] ?? "Gagal memuat laporan");
+    }
+  } catch (e) {
+    return Left("Terjadi kesalahan saat memuat laporan: $e");
+  }
+}
+
 }

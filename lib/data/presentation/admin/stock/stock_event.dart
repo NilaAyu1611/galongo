@@ -11,3 +11,16 @@ class AddStock extends StockEvent {
 
   AddStock({required this.request});
 }
+
+class UpdateStock extends StockEvent {
+  final int id;
+  final StockRequestModel request;
+
+  UpdateStock({required this.id, required this.request});
+}
+
+class DeleteStock extends StockEvent {
+  final int id;
+
+  DeleteStock({required this.id});
+}

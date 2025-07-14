@@ -1,11 +1,21 @@
 part of 'promo_bloc.dart';
 
-@immutable
-sealed class PromoEvent {}
-class SubmitPromo extends PromoEvent {
+abstract class PromoEvent {}
+
+class LoadPromos extends PromoEvent {}
+
+class AddPromo extends PromoEvent {
   final PromoRequestModel request;
-  SubmitPromo(this.request);
+  AddPromo(this.request);
 }
 
-class FetchPromoList extends PromoEvent {}
+class UpdatePromo extends PromoEvent {
+  final int promoId;
+  final PromoRequestModel request;
+  UpdatePromo(this.promoId, this.request);
+}
 
+class DeletePromo extends PromoEvent {
+  final int promoId;
+  DeletePromo(this.promoId);
+}

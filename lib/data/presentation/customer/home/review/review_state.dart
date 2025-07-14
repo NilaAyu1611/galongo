@@ -1,18 +1,19 @@
 part of 'review_bloc.dart';
 
 @immutable
-sealed class ReviewState {}
+abstract class ReviewState {}
 
-final class ReviewInitial extends ReviewState {}
-
-class ReviewSuccess extends ReviewState {
+class ReviewInitial extends ReviewState {}
+class ReviewLoading extends ReviewState {}
+class ReviewSubmitSuccess extends ReviewState {
   final String message;
-
-  ReviewSuccess(this.message);
+  ReviewSubmitSuccess(this.message);
 }
-
+class ReviewLoadSuccess extends ReviewState {
+  final List<dynamic> reviews;
+  ReviewLoadSuccess(this.reviews);
+}
 class ReviewFailure extends ReviewState {
   final String error;
-
   ReviewFailure(this.error);
 }

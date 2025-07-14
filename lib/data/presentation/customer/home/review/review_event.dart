@@ -1,9 +1,11 @@
 part of 'review_bloc.dart';
 
 @immutable
-sealed class ReviewEvent {}
-class SubmitReview extends ReviewEvent {
-  final ReviewRequestModel review;
+abstract class ReviewEvent {}
 
-  SubmitReview(this.review);
+class SubmitReview extends ReviewEvent {
+  final ReviewRequestModel request;
+  SubmitReview(this.request);
 }
+
+class LoadReviews extends ReviewEvent {}
