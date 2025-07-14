@@ -47,28 +47,50 @@ class ServiceHttpClient {
   }
 
   // GET dengan token
-  Future<http.Response> get(String endPoint) async {
-    final token = await _storage.read(key: "authToken");
-    final url = Uri.parse("$baseUrl$endPoint");
+  Future<http.Response> getWithToken(String endPoint) async {
+  final token = await _storage.read(key: "authToken");
+  final url = Uri.parse("$baseUrl$endPoint");
 
-     print('🔐 Token: $token');
-    print('🌐 URL: $baseUrl$endPoint');
+  print('🔐 [getWithToken] Token: $token');
+  print('🌐 [getWithToken] URL: $url');
 
-
-    try {
-      final response = await http.get(
-        url,
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-      );
-      return response;
-    } catch (e) {
-      throw Exception("GET request failed: $e");
-    }
+  try {
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+      },
+    );
+    return response;
+  } catch (e) {
+    throw Exception("GET with token failed: $e");
   }
+}
+
+
+  // Future<http.Response> get(String endPoint) async {
+  //   final token = await _storage.read(key: "authToken");
+  //   final url = Uri.parse("$baseUrl$endPoint");
+
+  //    print('🔐 Token: $token');
+  //   print('🌐 URL: $baseUrl$endPoint');
+
+
+  //   try {
+  //     final response = await http.get(
+  //       url,
+  //       headers: {
+  //         'Authorization': 'Bearer $token',
+  //         'Accept': 'application/json',
+  //         'Content-Type': 'application/json',
+  //       },
+  //     );
+  //     return response;
+  //   } catch (e) {
+  //     throw Exception("GET request failed: $e");
+  //   }
+  // }
 
   // DELETE dengan token
   Future<http.Response> delete(String endPoint) async {
@@ -110,5 +132,8 @@ class ServiceHttpClient {
       throw Exception("PUT with token failed: $e");
     }
   }
+
+  
+
 
 }

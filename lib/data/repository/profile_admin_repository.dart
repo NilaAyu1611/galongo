@@ -39,7 +39,7 @@ class ProfileAdminRepository {
 
   Future<Either<String, AdminProfileResponseModel>> getProfile() async {
     try {
-      final response = await _serviceHttpClient.get("admin/profile");
+      final response = await _serviceHttpClient.getWithToken("admin/profile");
 
       final jsonResponse = json.decode(response.body);
       if (response.statusCode == 200) {

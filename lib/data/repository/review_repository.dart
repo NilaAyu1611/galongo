@@ -38,7 +38,7 @@ class ReviewRepository {
 
   Future<Either<String, List<dynamic>>> getAllReviews() async {
   try {
-    final response = await _httpClient.get("admin/review");
+    final response = await _httpClient.getWithToken("admin/review");
     final jsonResponse = json.decode(response.body);
 
     if (response.statusCode == 200) {

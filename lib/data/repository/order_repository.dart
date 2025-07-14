@@ -25,7 +25,7 @@ class OrderRepository {
   }
 
   Future<Either<String, List<Data>>> getOrderHistory() async {
-    final response = await _httpClient.get('customer/orders/history');
+    final response = await _httpClient.getWithToken('customer/orders/history');
     final jsonResponse = json.decode(response.body);
     if (response.statusCode == 200) {
       final List<Data> data = (jsonResponse['data'] as List).map((e) => Data.fromMap(e)).toList();
@@ -48,7 +48,7 @@ class OrderRepository {
   // ============ ADMIN ============
 
   Future<Either<String, List<Data>>> getAllCustomerOrders() async {
-    final response = await _httpClient.get('admin/customers/orders');
+    final response = await _httpClient.getWithToken('admin/customers/orders');
     final jsonResponse = json.decode(response.body);
     if (response.statusCode == 200) {
       final List<Data> data = (jsonResponse['data'] as List).map((e) => Data.fromMap(e)).toList();

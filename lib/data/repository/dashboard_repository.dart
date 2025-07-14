@@ -17,7 +17,7 @@ class DashboardRepository {
 
   Future<Either<String, DashboardResponseModel>> getDashboardData() async {
   try {
-    final response = await _httpClient.get('admin/dashboard');
+    final response = await _httpClient.getWithToken('admin/dashboard');
     final jsonResponse = json.decode(response.body);
 
     if (response.statusCode == 200) {

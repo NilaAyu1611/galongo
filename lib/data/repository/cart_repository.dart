@@ -35,7 +35,7 @@ class CartRepository {
   // Ambil semua item di cart
   Future<Either<String, CartResponseModel>> getCartItems() async {
     try {
-      final http.Response response = await _httpClient.get("customer/cart");
+      final http.Response response = await _httpClient.getWithToken("customer/cart");
       final jsonResponse = json.decode(response.body);
 
       if (response.statusCode == 200) {

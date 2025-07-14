@@ -22,7 +22,7 @@ class _StockScreenState extends State<StockScreen> {
     'galon3.jpg',
     'galon4.jpg',
     'galon5.jpg',
-    'galon6.jpg',
+    'galon6.jpeg',
   ];
   String selectedImage = 'galon1.png';
 
@@ -30,7 +30,11 @@ class _StockScreenState extends State<StockScreen> {
   void initState() {
     super.initState();
     context.read<StockBloc>().add(LoadAllStock());
+    
+    print('📦 Fetching stock from: admin/stocks');
+
   }
+
 
   void _submitStock() {
     final quantity = int.tryParse(quantityController.text);
@@ -149,7 +153,7 @@ class _StockScreenState extends State<StockScreen> {
               child: const Text("Hapus"),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               onPressed: () {
-                context.read<StockBloc>().add(DeleteStock(id: stockId));
+                context.read<StockBloc>().add(DeleteStock(stockId));
                 Navigator.pop(context);
               },
             ),
@@ -168,24 +172,23 @@ class _StockScreenState extends State<StockScreen> {
       ),
       body: BlocConsumer<StockBloc, StockState>(
         listener: (context, state) {
-          if (state is StockAddSuccess ||
-              state is UpdateStock ||
-              state is DeleteStock) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text((state as dynamic).message)),
-            );
-            context.read<StockBloc>().add(LoadAllStock());
-            quantityController.clear();
-            priceController.clear();
-            setState(() {
-              selectedImage = imageOptions.first;
-            });
-          } else if (state is StockFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("❌ ${state.message}")),
-            );
-          }
-        },
+  if (state is StockAddSuccess || state is StockSuccess) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text((state as dynamic).message)),
+    );
+    context.read<StockBloc>().add(LoadAllStock());
+    quantityController.clear();
+    priceController.clear();
+    setState(() {
+      selectedImage = imageOptions.first;
+    });
+  } else if (state is StockFailure || state is StockError) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("❌ ${(state as dynamic).message}")),
+    );
+  }
+},
+
         builder: (context, state) {
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),

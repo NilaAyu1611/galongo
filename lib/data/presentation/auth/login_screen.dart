@@ -83,34 +83,36 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SpaceHeight(30),
-                BlocConsumer<LoginBloc, LoginState>(
-                  listener: (context, state) {
-                    if (state is LoginFailure) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(state.error)),
-                      );
-                    } else if (state is LoginSuccess) {
-                      final role = state.responseModel.data?.role?.toLowerCase();
+               BlocConsumer<LoginBloc, LoginState>(
+  listener: (context, state) {
+    if (state is LoginFailure) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(state.error)),
+      );
+    } else if (state is LoginSuccess) {
+      final role = state.responseModel.data?.role?.toLowerCase();
 
-                      if (role == 'admin') {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => const AdminHomeScreen()),
-                        );
-                      } else if (role == 'customer') {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(state.responseModel.message ?? 'Login berhasil')),
-                        );
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (_) => const CustomerHomeScreen()),
-                        );
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Role tidak dikenal')),
-                        );
-                      }
-                    }
+      if (role == 'admin') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const AdminHomeScreen()),
+        );
+      } else if (role == 'customer') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(state.responseModel.message ?? 'Login berhasil')),
+        );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const CustomerHomeScreen()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Role tidak dikenal')),
+        );
+      }
+    }
+  
+
                   },
                   builder: (context, state) {
                     return ElevatedButton(

@@ -24,3 +24,15 @@ class StockFailure extends StockState {
 
   StockFailure({required this.message});
 }
+
+// ✅ Tambahkan ini untuk update/delete success
+class StockSuccess extends StockState {
+  final String message;
+  StockSuccess(this.message);
+}
+
+// ✅ Tambahkan ini untuk update/delete error
+class StockError extends StockState {
+  final String message;
+  StockError(this.message);
+}

@@ -36,7 +36,7 @@ class ReportDamageRepository {
 
   Future<Either<String, List<dynamic>>> getAllDamageReports() async {
   try {
-    final response = await _httpClient.get("admin/damage-reports");
+    final response = await _httpClient.getWithToken("admin/damage-reports");
     final jsonResponse = json.decode(response.body);
 
     if (response.statusCode == 200) {

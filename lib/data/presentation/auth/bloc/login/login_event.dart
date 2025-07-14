@@ -8,3 +8,4 @@ class LoginRequested extends LoginEvent {
 
   LoginRequested({required this.requestModel});
 }
+

@@ -36,7 +36,7 @@ class TransactionRepository {
   // GET: Mendapatkan semua transaksi
   Future<Either<String, List<String>>> getAllTransactions() async {
     try {
-      final http.Response response = await _httpClient.get("customer/transactions");
+      final http.Response response = await _httpClient.getWithToken("customer/transactions");
       final jsonResponse = json.decode(response.body);
 
       if (response.statusCode == 200) {
@@ -58,7 +58,7 @@ class TransactionRepository {
   
   Future<Either<String, List<TransactionData>>> getAdminTransactions() async {
     try {
-      final res = await _httpClient.get("admin/transactions");
+      final res = await _httpClient.getWithToken("admin/transactions");
       final body = json.decode(res.body);
       if (res.statusCode == 200) {
         final List<TransactionData> transactions =
@@ -74,7 +74,7 @@ class TransactionRepository {
 
   Future<Either<String, TransactionSummary>> getAdminTransactionSummary() async {
     try {
-      final res = await _httpClient.get("admin/transactions/summary");
+      final res = await _httpClient.getWithToken("admin/transactions/summary");
       final body = json.decode(res.body);
       if (res.statusCode == 200) {
         return Right(TransactionSummary.fromMap(body['data']));

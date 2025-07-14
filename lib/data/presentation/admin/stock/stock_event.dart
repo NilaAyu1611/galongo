@@ -19,8 +19,10 @@ class UpdateStock extends StockEvent {
   UpdateStock({required this.id, required this.request});
 }
 
+
 class DeleteStock extends StockEvent {
   final int id;
-
-  DeleteStock({required this.id});
+  DeleteStock(this.id);
 }
+
+

@@ -41,7 +41,7 @@ class ProfileCustomerRepository {
   // Ambil profil customer
   Future<Either<String, CustomerProfileResponseModel>> getProfile() async {
     try {
-      final response = await _serviceHttpClient.get("customer/profile");
+      final response = await _serviceHttpClient.getWithToken("customer/profile");
 
       final jsonResponse = json.decode(response.body);
       if (response.statusCode == 200) {

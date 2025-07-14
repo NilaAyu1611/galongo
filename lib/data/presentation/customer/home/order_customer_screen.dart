@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:galongo/core/constants/colors.dart';
 import 'package:galongo/data/model/response/customer/order_response_model.dart';
+import 'package:galongo/data/model/response/stock_list_response_model.dart';
 import 'package:galongo/data/presentation/customer/home/orders/orders_bloc.dart';
 
 class OrderCustomerScreen extends StatelessWidget {
-  const OrderCustomerScreen({super.key});
+  
+
+  final StockData stock;
+
+  const OrderCustomerScreen({super.key, required this.stock});
 
   @override
   Widget build(BuildContext context) {

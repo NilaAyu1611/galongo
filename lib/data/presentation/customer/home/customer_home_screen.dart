@@ -131,7 +131,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   Widget _buildProdukList(List<StockData> stocks) {
     return SizedBox(
-      height: 170,
+      height: 200,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: stocks.length,
@@ -144,7 +144,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             margin: const EdgeInsets.only(right: 12),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             child: SizedBox(
-              width: 120,
+              width: 140,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -167,6 +167,17 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                   Text(
                     "${stock.quantity} pcs",
                     style: const TextStyle(fontSize: 11, color: Colors.grey),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.add_circle, color: AppColors.primary),
+                    tooltip: "Pesan galon ini",
+                    onPressed: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/order', // pastikan route ini sudah ada di main.dart
+                        arguments: stock,
+                      );
+                    },
                   ),
                   const SizedBox(height: 6),
                 ],

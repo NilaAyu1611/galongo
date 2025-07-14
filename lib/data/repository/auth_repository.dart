@@ -24,6 +24,12 @@ class AuthRepository {
     if (response.statusCode == 200) {
       final result = AuthResponseModel.fromMap(jsonResponse);
 
+      final role = result.data?.role;
+      if (role != null) {
+        await _storage.write(key: 'userRole', value: role);
+      }
+
+      
       // Ambil token dari response
       final token = result.data?.token;
 

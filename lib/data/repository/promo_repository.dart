@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:galongo/data/model/request/admin/promo_request_model.dart';
 import 'package:galongo/data/model/response/promo_response_model.dart';
 import 'package:galongo/services/service_http_client.dart';
+import 'package:http/http.dart';
 
 class PromoRepository {
   final ServiceHttpClient _httpClient;
@@ -39,7 +40,7 @@ class PromoRepository {
   // Get semua promo
   Future<Either<String, List<dynamic>>> getAllPromo() async {
     try {
-      final response = await _httpClient.get("admin/promo"); // endpoint bisa disesuaikan
+      final response = await _httpClient.getWithToken("admin/promo"); // endpoint bisa disesuaikan
       final jsonResponse = json.decode(response.body);
 
       if (response.statusCode == 200) {

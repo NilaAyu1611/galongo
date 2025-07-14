@@ -40,21 +40,48 @@ class OrderAdminScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: AppColors.primary.withOpacity(0.2),
-                      child: Text(customerName.substring(0, 1).toUpperCase()),
-                    ),
-                    title: Text("Pesanan #${order.id} - ${order.status}"),
-                    subtitle: Column(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Nama Customer: $customerName"),
-                        Text("Jumlah: ${order.quantity} galon"),
-                        Text("Total: Rp ${order.totalPrice}"),
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          leading: CircleAvatar(
+                            backgroundColor: AppColors.primary.withOpacity(0.2),
+                            child: Text(customerName.substring(0, 1).toUpperCase()),
+                          ),
+                          title: Text("Pesanan #${order.id} - ${order.status}"),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Nama Customer: $customerName"),
+                              Text("Jumlah: ${order.quantity} galon"),
+                              Text("Total: Rp ${order.totalPrice}"),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/admin/confirmation',
+                                arguments: order.id,
+                              );
+                            },
+                            icon: const Icon(Icons.check_circle_outline),
+                            label: const Text("Konfirmasi"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: Colors.white,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                    trailing: const Icon(Icons.receipt_long, color: AppColors.primary),
                   ),
                 );
               },

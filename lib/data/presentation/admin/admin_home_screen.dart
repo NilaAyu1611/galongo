@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:galongo/core/constants/colors.dart';
 import 'package:galongo/core/utils/storage_helper.dart';
+import 'package:galongo/data/presentation/admin/admin_report_damage_screen.dart';
+import 'package:galongo/data/presentation/admin/confirmation_screen.dart';
 import 'package:galongo/data/presentation/admin/dashboard/dashboard_bloc.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:galongo/data/presentation/admin/order_admin_screen.dart';
+import 'package:galongo/data/presentation/admin/promo_admin_screen.dart';
 import 'package:galongo/data/presentation/admin/stock_screen.dart';
+import 'package:galongo/data/presentation/customer/transaction_customer_screen.dart';
 
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key});
@@ -104,12 +109,24 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     );
   }
 
-  Widget _buildBodyByIndex() {
+ Widget _buildBodyByIndex() {
   switch (_selectedIndex) {
     case 0:
       return _buildDashboard();
     case 1:
-      return const StockScreen(); // TAMBAH INI
+      return const StockScreen();
+    case 2:
+      return const OrderAdminScreen();
+    case 3:
+      return const AdminReportDamageScreen();
+    case 4:
+       return ConfirmationScreen(orderId: 1);
+    case 5:
+      return const TransactionCustomerScreen(); // gunakan admin screen kalau ada
+    case 6:
+      return const OrderAdminScreen();
+    case 7:
+      return const AdminPromoScreen();
     default:
       return Center(
         child: Text(
@@ -119,6 +136,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       );
   }
 }
+
 
 
   Widget _buildDashboard() {

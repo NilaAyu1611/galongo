@@ -68,6 +68,6 @@ class Data {
         "email": email,
         "phone": phone,
         "role": role,
-         "token": token,
+        "token": token,
     };
 }
