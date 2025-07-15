@@ -14,6 +14,7 @@ import 'package:galongo/data/presentation/auth/register_screen.dart';
 import 'package:galongo/data/presentation/admin/admin_home_screen.dart';
 import 'package:galongo/data/presentation/customer/customer_report_damage_screen.dart';
 import 'package:galongo/data/presentation/customer/home/customer_review_screen.dart';
+import 'package:galongo/data/presentation/customer/map_page.dart';
 import 'package:galongo/data/presentation/customer/transaction_customer_screen.dart';
 import 'package:galongo/data/presentation/customer/home/customer_home_screen.dart';
 import 'package:galongo/data/presentation/admin/dashboard/dashboard_bloc.dart';
@@ -58,10 +59,13 @@ class AppRoutes {
         child: ConfirmationScreen(orderId: orderId),
       );
     },
-      '/order': (context) {
-    final stock = ModalRoute.of(context)!.settings.arguments as StockData;
-    return OrderCustomerScreen(stock: stock);
-  },
+  //     '/order': (context) {
+  //   final stock = ModalRoute.of(context)!.settings.arguments as StockData;
+  //   return OrderCustomerScreen(stock: stock);
+  // },
+  '/order': (context) => const OrderCustomerScreen(),
+
+  '/map': (context) => const MapPage(),
 
 
 

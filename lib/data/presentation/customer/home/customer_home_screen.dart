@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:galongo/core/constants/colors.dart';
 import 'package:galongo/data/presentation/admin/stock/stock_bloc.dart';
 import 'package:galongo/data/model/response/stock_list_response_model.dart';
+import 'package:galongo/data/presentation/customer/home/cart/cart_bloc.dart';
+import 'package:galongo/data/presentation/customer/home/cart/cart_event.dart';
 
 class CustomerHomeScreen extends StatefulWidget {
   const CustomerHomeScreen({super.key});
@@ -25,6 +27,14 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
       appBar: AppBar(
         title: const Text("Galongo - Galon"),
         backgroundColor: AppColors.primary,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            onPressed: () {
+              Navigator.pushNamed(context, '/order');
+            },
+          ),
+        ],
       ),
       body: SafeArea(
         child: BlocBuilder<StockBloc, StockState>(
@@ -170,12 +180,13 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.add_circle, color: AppColors.primary),
-                    tooltip: "Pesan galon ini",
+                    tooltip: "Tambah ke keranjang",
                     onPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        '/order', // pastikan route ini sudah ada di main.dart
-                        arguments: stock,
+                      context.read<CartBloc>().add(
+                        AddToCartEvent(stockId: stock.id!, quantity: 1),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("✅ Ditambahkan ke keranjang")),
                       );
                     },
                   ),

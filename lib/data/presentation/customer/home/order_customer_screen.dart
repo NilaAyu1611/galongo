@@ -1,67 +1,129 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:galongo/data/presentation/customer/home/cart/cart_bloc.dart';
+import 'package:galongo/data/presentation/customer/home/cart/cart_event.dart';
+import 'package:galongo/data/presentation/customer/home/cart/cart_state.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:galongo/core/constants/colors.dart';
-import 'package:galongo/data/model/response/customer/order_response_model.dart';
-import 'package:galongo/data/model/response/stock_list_response_model.dart';
-import 'package:galongo/data/presentation/customer/home/orders/orders_bloc.dart';
 
-class OrderCustomerScreen extends StatelessWidget {
-  
+import 'package:galongo/data/model/response/customer/cart_response_model.dart';
 
-  final StockData stock;
+class OrderCustomerScreen extends StatefulWidget {
+  const OrderCustomerScreen({super.key});
 
-  const OrderCustomerScreen({super.key, required this.stock});
+  @override
+  State<OrderCustomerScreen> createState() => _OrderCustomerScreenState();
+}
+
+class _OrderCustomerScreenState extends State<OrderCustomerScreen> {
+  String? selectedAddress;
+  LatLng? selectedLatLng;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<CartBloc>().add(LoadCartEvent());
+  }
+
+  void _selectLocation() async {
+    final result = await Navigator.pushNamed(context, '/map');
+    if (result != null && result is Map<String, dynamic>) {
+      setState(() {
+        selectedAddress = result['address'];
+        selectedLatLng = result['latlng'];
+      });
+    }
+  }
+
+  void _submitOrder(List<CartItem> items, int totalPrice) {
+    if (selectedLatLng == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("📍 Lokasi belum dipilih.")),
+      );
+      return;
+    }
+
+    // TODO: Kirim order ke backend dengan data cart + selectedLatLng
+    // Misalnya menggunakan OrdersBloc atau OrderRepository
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("✅ Pesanan berhasil dibuat!")),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Muat riwayat pesanan customer
-    context.read<OrdersBloc>().add(GetOrderHistory());
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Pesanan Saya"),
+        title: const Text("Konfirmasi Pesanan"),
         backgroundColor: AppColors.primary,
       ),
-      body: BlocBuilder<OrdersBloc, OrdersState>(
+      body: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
-          if (state is OrdersInitial || state is OrdersLoading) {
+          if (state is CartLoading) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state is OrdersLoadSuccess) {
-            final orders = state.orders;
-            if (orders.isEmpty) {
-              return const Center(child: Text("Belum ada pesanan."));
-            }
+          } else if (state is CartLoadSuccess) {
+            final items = state.items;
+            final total = state.totalPrice;
 
-            return ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: orders.length,
-              itemBuilder: (context, index) {
-                final order = orders[index];
-                return Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.only(bottom: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      return ListTile(
+                        title: Text(item.stock['name'] ?? 'Produk'),
+                        subtitle: Text("Jumlah: ${item.quantity}"),
+                        trailing: Text("Rp ${item.stock['price'] ?? 0}"),
+                      );
+                    },
                   ),
-                  child: ListTile(
-                    title: Text("Pesanan #${order.id} - ${order.status}"),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 6),
-                        Text("Jumlah: ${order.quantity} galon"),
-                        Text("Total: Rp ${order.totalPrice}"),
-                      ],
+                ),
+                const Divider(),
+                ListTile(
+                  title: const Text("Total"),
+                  trailing: Text("Rp $total"),
+                ),
+                ListTile(
+                  title: const Text("Alamat Pengantaran"),
+                  subtitle: Text(selectedAddress ?? 'Belum dipilih'),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.map),
+                    onPressed: _selectLocation,
+                  ),
+                ),
+                if (selectedLatLng != null)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Koordinat: ${selectedLatLng!.latitude}, ${selectedLatLng!.longitude}',
+                        style: const TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
                     ),
-                    trailing: const Icon(Icons.local_shipping, color: AppColors.primary),
                   ),
-                );
-              },
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () => _submitOrder(items, total),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                      ),
+                      child: const Text("Pesan Sekarang"),
+                    ),
+                  ),
+                ),
+              ],
             );
-          } else if (state is OrdersFailure) {
-            return Center(child: Text("❌ Gagal memuat pesanan: ${state.message}"));
+          } else if (state is CartFailure) {
+            return Center(child: Text("❌ ${state.message}"));
           } else {
-            return const Center(child: Text("Tidak ada data."));
+            return const Center(child: Text("Keranjang kosong."));
           }
         },
       ),
