@@ -64,6 +64,7 @@ class AppRoutes {
   //   return OrderCustomerScreen(stock: stock);
   // },
   '/order': (context) => const OrderCustomerScreen(),
+  
 
   '/map': (context) => const MapPage(),
 

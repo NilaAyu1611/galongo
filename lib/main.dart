@@ -8,6 +8,7 @@ import 'package:galongo/data/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:galongo/data/presentation/auth/bloc/register/register_bloc.dart';
 import 'package:galongo/data/presentation/auth/login_screen.dart';
 import 'package:galongo/data/presentation/customer/home/cart/cart_bloc.dart';
+import 'package:galongo/data/presentation/customer/home/order_customer_screen.dart';
 import 'package:galongo/data/presentation/customer/home/orders/orders_bloc.dart';
 import 'package:galongo/data/presentation/customer/home/report_damage/report_damage_bloc.dart';
 import 'package:galongo/data/presentation/customer/home/review/review_bloc.dart';
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => OrdersBloc(orderRepository: OrderRepository(ServiceHttpClient())),
+           child: const OrderCustomerScreen(),
         ),
 
         BlocProvider(

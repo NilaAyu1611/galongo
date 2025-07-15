@@ -21,6 +21,16 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
       (r) => emit(OrdersLoadSuccess(r)),
     );
   });
+  
+    on<CreateOrder>((event, emit) async {
+    emit(OrdersLoading());
+    final result = await orderRepository.createOrder(event.request);
+    result.fold(
+      (error) => emit(OrdersFailure(error)),
+      (response) => emit(OrdersSuccess(response.data ?? [])), // bisa ubah sesuai respon
+    );
+  });
+
 
   on<ConfirmOrder>((event, emit) async {
     emit(OrdersLoading());

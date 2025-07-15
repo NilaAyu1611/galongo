@@ -17,9 +17,10 @@ class OrderResponseModel {
     factory OrderResponseModel.fromMap(Map<String, dynamic> json) => OrderResponseModel(
         statusCode: json["status_code"],
         message: json["message"],
-        data: json["data"] == null
-            ? null
-            : List<Data>.from(json["data"].map((x) => Data.fromMap(x))),
+        data: json["data"] is List
+          ? (json["data"] as List).map((x) => Data.fromMap(x)).toList()
+          : [],
+
       );
 
     Map<String, dynamic> toMap() => {
