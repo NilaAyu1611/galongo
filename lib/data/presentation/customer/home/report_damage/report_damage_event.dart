@@ -5,7 +5,9 @@ abstract class ReportDamageEvent {}
 
 class SubmitDamageReport extends ReportDamageEvent {
   final ReportDamageRequestModel request;
-  SubmitDamageReport(this.request);
+  final File imageFile;
+
+  SubmitDamageReport(this.request, this.imageFile);
 }
 
 class LoadDamageReports extends ReportDamageEvent {}

@@ -34,6 +34,25 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
               Navigator.pushNamed(context, '/order');
             },
           ),
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              if (value == 'logout') {
+                _showLogoutConfirmationDialog(context);
+              }
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'logout',
+                child: Row(
+                  children: [
+                    Icon(Icons.logout, color: Colors.red),
+                    SizedBox(width: 8),
+                    Text('Logout'),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ],
       ),
       body: SafeArea(
@@ -69,6 +88,42 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
         ),
       ),
     );
+  }
+
+  // 🔐 Dialog Konfirmasi Logout
+  void _showLogoutConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Konfirmasi Logout"),
+          content: const Text("Apakah Anda yakin ingin logout?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("Batal"),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await _performLogout();
+              },
+              child: const Text("Logout"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // 🔒 Aksi Logout (hapus data dan navigasi ke login)
+  Future<void> _performLogout() async {
+    // TODO: Hapus token / session jika ada, misalnya pakai SharedPreferences
+    // final prefs = await SharedPreferences.getInstance();
+    // await prefs.clear();
+
+    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
   }
 
   Widget _buildHeaderInfo() {

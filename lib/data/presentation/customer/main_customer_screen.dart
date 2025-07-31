@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:galongo/data/presentation/customer/home/customer_home_screen.dart';
+import 'package:galongo/data/presentation/customer/home/profile_customer_screen.dart';
 import 'package:galongo/data/presentation/customer/home/promo_customer_screen.dart';
-import 'transaction_customer_screen.dart';
+import 'package:galongo/data/presentation/customer/home/report_damage_screen.dart';
+import 'package:galongo/data/presentation/customer/transaction_customer_screen.dart';
 
+// import 'package:galongo/data/presentation/customer/home/profile_customer_screen.dart';
 
 class MainCustomerScreen extends StatefulWidget {
   const MainCustomerScreen({super.key});
@@ -18,7 +21,9 @@ class _MainCustomerScreenState extends State<MainCustomerScreen> {
     CustomerHomeScreen(),
     PromoCustomerScreen(),
     TransactionCustomerScreen(),
-    //ProfileCustomerScreen(),
+    ReportDamageScreen(),
+    ProfileCustomerScreen(),
+    
   ];
 
   @override
@@ -43,6 +48,10 @@ class _MainCustomerScreenState extends State<MainCustomerScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.receipt_long),
             label: 'Transaksi',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.report_problem),
+            label: 'Lapor',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

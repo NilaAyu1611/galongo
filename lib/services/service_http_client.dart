@@ -3,13 +3,19 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class ServiceHttpClient {
-  // final String baseUrl = 'http://10.0.2.2:8000/api/';
-  final String baseUrl = 'http://192.168.100.9:8000/api/';
+//  final String baseUrl = 'http://10.0.2.2:8000/api/';
+  final String baseUrl = 'http://192.168.100.6:8000/api/';
+  // final String baseUrl = 'http://10.69.1.4:8000/api/';
+  
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
-  // POST tanpa token (misalnya untuk login, register)
+ Future<String?> getToken() async {
+    return await _storage.read(key: 'authToken');
+  }
+  
+  // POST tanpa token (misalnya untuk login, register) 
   Future<http.Response> post(String endPoint, Map<String, dynamic> body) async {
-    final url = Uri.parse("$baseUrl$endPoint");
+    final url = Uri.parse("$baseUrl$endPoint"); 
     try {
       final response = await http.post(
         url,

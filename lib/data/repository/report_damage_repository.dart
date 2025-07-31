@@ -1,10 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'dart:io';
+
+import 'package:dartz/dartz.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:galongo/data/model/request/customer/report_damage_request_model.dart';
 import 'package:galongo/data/model/response/customer/report_damage_response_model.dart';
 import 'package:galongo/services/service_http_client.dart';
-import 'package:dartz/dartz.dart';
 
 class ReportDamageRepository {
   final ServiceHttpClient _httpClient;
@@ -13,40 +15,45 @@ class ReportDamageRepository {
 
   Future<Either<String, ReportDamageResponseModel>> reportDamage(
     ReportDamageRequestModel request,
+    File imageFile, // ⬅️ kirim file asli dari kamera
   ) async {
     try {
-      final response = await _httpClient.postWithToken(
-        "customer/report-damage",
-        request.toMap(),
-      );
+      final uri = Uri.parse("${_httpClient.baseUrl}/customer/report-damage");
+      final token = await _httpClient.getToken();
 
+      var requestMultipart = http.MultipartRequest("POST", uri)
+        ..headers['Authorization'] = 'Bearer $token'
+        ..fields['order_id'] = request.orderId.toString()
+        ..fields['description'] = request.description ?? ""
+        ..files.add(await http.MultipartFile.fromPath('photo', imageFile.path)); // ⬅️ kirim file sebagai foto
+
+      final streamedResponse = await requestMultipart.send();
+      final response = await http.Response.fromStream(streamedResponse);
       final jsonResponse = json.decode(response.body);
 
       if (response.statusCode == 201) {
         final result = ReportDamageResponseModel.fromMap(jsonResponse);
-        log("Damage Report Success: ${result.message}");
         return Right(result);
       } else {
-        return Left(jsonResponse["message"] ?? "Failed to report damage");
+        return Left(jsonResponse['message'] ?? "Gagal mengirim laporan kerusakan");
       }
     } catch (e) {
-      return Left("Error reporting damage: $e");
+      return Left("Terjadi kesalahan saat kirim laporan: $e");
     }
   }
 
   Future<Either<String, List<dynamic>>> getAllDamageReports() async {
-  try {
-    final response = await _httpClient.getWithToken("admin/damage-reports");
-    final jsonResponse = json.decode(response.body);
+    try {
+      final response = await _httpClient.getWithToken("admin/damage-reports");
+      final jsonResponse = json.decode(response.body);
 
-    if (response.statusCode == 200) {
-      return Right(jsonResponse["data"] ?? []);
-    } else {
-      return Left(jsonResponse["message"] ?? "Gagal memuat laporan");
+      if (response.statusCode == 200) {
+        return Right(jsonResponse["data"] ?? []);
+      } else {
+        return Left(jsonResponse["message"] ?? "Gagal memuat laporan");
+      }
+    } catch (e) {
+      return Left("Terjadi kesalahan saat memuat laporan: $e");
     }
-  } catch (e) {
-    return Left("Terjadi kesalahan saat memuat laporan: $e");
   }
-}
-
 }

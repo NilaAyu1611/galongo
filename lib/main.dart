@@ -10,6 +10,7 @@ import 'package:galongo/data/presentation/auth/login_screen.dart';
 import 'package:galongo/data/presentation/customer/home/cart/cart_bloc.dart';
 import 'package:galongo/data/presentation/customer/home/order_customer_screen.dart';
 import 'package:galongo/data/presentation/customer/home/orders/orders_bloc.dart';
+import 'package:galongo/data/presentation/customer/home/profile_customer/profile_customer_bloc.dart';
 import 'package:galongo/data/presentation/customer/home/report_damage/report_damage_bloc.dart';
 import 'package:galongo/data/presentation/customer/home/review/review_bloc.dart';
 import 'package:galongo/data/presentation/customer/home/transactions/transaction_bloc.dart';
@@ -17,6 +18,7 @@ import 'package:galongo/data/repository/auth_repository.dart';
 import 'package:galongo/data/repository/cart_repository.dart';
 import 'package:galongo/data/repository/dashboard_repository.dart';
 import 'package:galongo/data/repository/order_repository.dart';
+import 'package:galongo/data/repository/profile_customer_repository.dart';
 import 'package:galongo/data/repository/promo_repository.dart';
 import 'package:galongo/data/repository/report_damage_repository.dart';
 import 'package:galongo/data/repository/review_repository.dart';
@@ -49,6 +51,7 @@ class MyApp extends StatelessWidget {
           create: (_) => OrdersBloc(orderRepository: OrderRepository(ServiceHttpClient())),
            child: const OrderCustomerScreen(),
         ),
+        
 
         BlocProvider(
           create: (_) => StockBloc(stockRepository: StockRepository(ServiceHttpClient())),
@@ -68,9 +71,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => CartBloc(CartRepository(ServiceHttpClient())),
         ),
-
-
-
+        BlocProvider(
+          create: (_) => ProfileCustomerBloc(ProfileCustomerRepository(ServiceHttpClient())),
+        ),
 
       ],
       child: MaterialApp(

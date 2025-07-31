@@ -9,6 +9,7 @@ import 'package:galongo/data/presentation/admin/admin_home_screen.dart';
 import 'package:galongo/data/presentation/auth/bloc/login/login_bloc.dart';
 import 'package:galongo/data/presentation/auth/register_screen.dart';
 import 'package:galongo/data/presentation/customer/home/customer_home_screen.dart';
+import 'package:galongo/data/presentation/customer/main_customer_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -101,10 +102,11 @@ class _LoginScreenState extends State<LoginScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(state.responseModel.message ?? 'Login berhasil')),
         );
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => const CustomerHomeScreen()),
-        );
+       Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const MainCustomerScreen()),
+      );
+
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Role tidak dikenal')),
