@@ -92,6 +92,7 @@ import 'package:galongo/data/presentation/admin/order_admin_screen.dart';
 import 'package:galongo/data/presentation/admin/promo_admin_screen.dart';
 import 'package:galongo/data/presentation/admin/stock/stock_bloc.dart';
 import 'package:galongo/data/presentation/admin/stock_screen.dart';
+import 'package:galongo/data/presentation/admin/transaction_admin_screen.dart';
 import 'package:galongo/data/presentation/auth/login_screen.dart';
 import 'package:galongo/data/presentation/auth/register_screen.dart';
 import 'package:galongo/data/presentation/customer/customer_report_damage_screen.dart';
@@ -139,6 +140,8 @@ class AppRoutes {
     '/admin/promo': (context) => const AdminPromoScreen(),
     '/admin/reviews': (context) => const AdminReviewScreen(),
     '/admin/report-damages': (context) => const AdminReportDamageScreen(),
+    '/admin/transactions': (context) => const TransactionAdminScreen(),
+    '/admin/transactions/summary': (context) => const TransactionAdminScreen(),
     '/admin/confirmation': (context) {
       final orderId = ModalRoute.of(context)!.settings.arguments as int;
       return BlocProvider(

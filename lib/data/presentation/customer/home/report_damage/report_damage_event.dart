@@ -11,3 +11,10 @@ class SubmitDamageReport extends ReportDamageEvent {
 }
 
 class LoadDamageReports extends ReportDamageEvent {}
+
+class UpdateDamageReportStatus extends ReportDamageEvent {
+  final int id;
+  final String newStatus;
+
+  UpdateDamageReportStatus({required this.id, required this.newStatus});
+}

@@ -21,3 +21,8 @@ class ReportDamageFailure extends ReportDamageState {
   final String error;
   ReportDamageFailure(this.error);
 }
+
+class ReportDamageStatusUpdateSuccess extends ReportDamageState {
+  final String message;
+  ReportDamageStatusUpdateSuccess(this.message);
+}

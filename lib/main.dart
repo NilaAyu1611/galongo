@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => OrdersBloc(orderRepository: OrderRepository(ServiceHttpClient())),
-           child: const OrderCustomerScreen(),
+           
         ),
         
 

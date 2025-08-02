@@ -1,14 +1,18 @@
 class TransactionSummary {
-  final String? totalIn;
-  final String? totalOut;
-  final int? netBalance;
+  final double totalIn;
+  final double totalOut;
+  final double netBalance;
 
-  TransactionSummary({this.totalIn, this.totalOut, this.netBalance});
+  TransactionSummary({
+    required this.totalIn,
+    required this.totalOut,
+    required this.netBalance,
+  });
 
   factory TransactionSummary.fromMap(Map<String, dynamic> json) => TransactionSummary(
-        totalIn: json["total_in"],
-        totalOut: json["total_out"],
-        netBalance: json["net_balance"],
+        totalIn: double.tryParse(json["total_in"].toString()) ?? 0.0,
+        totalOut: double.tryParse(json["total_out"].toString()) ?? 0.0,
+        netBalance: double.tryParse(json["net_balance"].toString()) ?? 0.0,
       );
 }
 

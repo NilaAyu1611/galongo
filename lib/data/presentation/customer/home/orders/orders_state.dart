@@ -6,14 +6,14 @@ class OrdersInitial extends OrdersState {}
 
 class OrdersLoading extends OrdersState {}
 
-class OrdersSuccess extends OrdersState {
-  final List<Data> orderList;
+// class OrdersSuccess extends OrdersState {
+//   final List<OrderData> orderList;
 
-  OrdersSuccess(this.orderList);
-}
+//   OrdersSuccess(this.orderList);
+// }
 
 class OrdersLoadSuccess extends OrdersState {
-  final List<Data> orders;
+  final List<OrderData> orders;
   OrdersLoadSuccess(this.orders);
 }
 

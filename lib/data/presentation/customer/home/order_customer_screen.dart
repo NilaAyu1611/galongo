@@ -53,8 +53,8 @@ class _OrderCustomerScreenState extends State<OrderCustomerScreen> {
       final order = OrderRequestModel(
         stockId: item.stock['id'],
         quantity: item.quantity,
-        latitude: latitude.toInt(),
-        longitude: longitude.toInt(),
+        latitude: latitude,
+        longitude: longitude,
       );
 
       context.read<OrdersBloc>().add(CreateOrder(order));

@@ -24,11 +24,11 @@ class OrderRepository {
     }
   }
 
-  Future<Either<String, List<Data>>> getOrderHistory() async {
+  Future<Either<String, List<OrderData>>> getOrderHistory() async {
     final response = await _httpClient.getWithToken('customer/orders/history');
     final jsonResponse = json.decode(response.body);
     if (response.statusCode == 200) {
-      final List<Data> data = (jsonResponse['data'] as List).map((e) => Data.fromMap(e)).toList();
+      final List<OrderData> data = (jsonResponse['data'] as List).map((e) => OrderData.fromMap(e)).toList();
       return Right(data);
     } else {
       return Left(jsonResponse['message']);
@@ -47,11 +47,11 @@ class OrderRepository {
 
   // ============ ADMIN ============
 
-  Future<Either<String, List<Data>>> getAllCustomerOrders() async {
+  Future<Either<String, List<OrderData>>> getAllCustomerOrders() async {
     final response = await _httpClient.getWithToken('admin/customers/orders');
     final jsonResponse = json.decode(response.body);
     if (response.statusCode == 200) {
-      final List<Data> data = (jsonResponse['data'] as List).map((e) => Data.fromMap(e)).toList();
+      final List<OrderData> data = (jsonResponse['data'] as List).map((e) => OrderData.fromMap(e)).toList();
       return Right(data);
     } else {
       return Left(jsonResponse['message']);

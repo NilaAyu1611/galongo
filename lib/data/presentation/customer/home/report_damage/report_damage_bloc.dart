@@ -29,6 +29,21 @@ class ReportDamageBloc extends Bloc<ReportDamageEvent, ReportDamageState> {
       );
     });
 
+  on<UpdateDamageReportStatus>((event, emit) async {
+  emit(ReportDamageLoading());
+  final result = await repository.updateReportStatus(event.id, event.newStatus);
+  result.fold(
+    (l) => emit(ReportDamageFailure(l)),
+    (r) {
+      emit(ReportDamageStatusUpdateSuccess(r)); // emit pesan sukses
+      add(LoadDamageReports()); // tetap reload data
+    },
+  );
+});
+
+
+
+
 
   }
 }

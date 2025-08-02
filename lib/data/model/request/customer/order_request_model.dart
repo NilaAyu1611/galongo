@@ -3,8 +3,8 @@ import 'dart:convert';
 class OrderRequestModel {
     final int? stockId;
     final int? quantity;
-    final int? latitude;
-    final int? longitude;
+    final double? latitude;
+    final double? longitude;
 
     OrderRequestModel({
         this.stockId,

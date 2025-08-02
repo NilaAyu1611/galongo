@@ -27,7 +27,7 @@ class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
     final result = await orderRepository.createOrder(event.request);
     result.fold(
       (error) => emit(OrdersFailure(error)),
-      (response) => emit(OrdersSuccess(response.data ?? [])), // bisa ubah sesuai respon
+      (response) => emit(OrdersLoadSuccess(response.data ?? [])), // bisa ubah sesuai respon
     );
   });
 

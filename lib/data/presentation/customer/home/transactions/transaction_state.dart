@@ -20,3 +20,10 @@ class TransactionFailure extends TransactionState {
   final String message;
   TransactionFailure(this.message);
 }
+
+class TransactionAllLoaded extends TransactionState {
+  final List<TransactionData> transactions;
+  final TransactionSummary summary;
+
+  TransactionAllLoaded({required this.transactions, required this.summary});
+}

@@ -31,14 +31,16 @@ class DashboardData {
   final int? totalOrder;
   final int? pending;
   final int? confirmed;
-  final int? completed;
+  final int? delivered;
+  final int? received;
   final double? averageRating;
 
   DashboardData({
     this.totalOrder,
     this.pending,
     this.confirmed,
-    this.completed,
+    this.delivered,
+    this.received,
     this.averageRating,
   });
 
@@ -51,7 +53,8 @@ class DashboardData {
         totalOrder: json["total_order"] ?? 0,
         pending: json["pending"] ?? 0,
         confirmed: json["confirmed"] ?? 0,
-        completed: json["completed"] ?? 0,
+        delivered: json["delivered"] ?? 0,
+        received: json["received"] ?? 0,
         averageRating: (json["average_rating"] as num?)?.toDouble() ?? 0.0,
       );
 
@@ -59,7 +62,8 @@ class DashboardData {
         "total_order": totalOrder,
         "pending": pending,
         "confirmed": confirmed,
-        "completed": completed,
+        "deliverd": delivered,
+        "received": received,
         "average_rating": averageRating,
       };
 }

@@ -28,5 +28,30 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         (r) => emit(TransactionSummarySuccess(r)),
       );
     });
+    
+    on<LoadAllTransactionData>((event, emit) async {
+  emit(TransactionLoading());
+
+  final trxResult = await repository.getAdminTransactions();
+  final summaryResult = await repository.getAdminTransactionSummary();
+
+  if (trxResult.isLeft()) {
+    emit(TransactionFailure(trxResult.fold((l) => l, (_) => '')));
+    return;
   }
+
+  if (summaryResult.isLeft()) {
+    emit(TransactionFailure(summaryResult.fold((l) => l, (_) => '')));
+    return;
+  }
+
+  emit(TransactionAllLoaded(
+    transactions: trxResult.getOrElse(() => []),
+    summary: summaryResult.getOrElse(() => TransactionSummary(totalIn: 0, totalOut: 0, netBalance: 0)),
+  ));
+});
+
+    
+  }
+    
 }
